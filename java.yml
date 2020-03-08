@@ -1,0 +1,8 @@
+---
+- hosts: 
+   - Jenkins
+  become: yes
+  become_method: sudo
+  roles:
+   - role: robertdebock.java
+

@@ -1,0 +1,21 @@
+---
+- name: install Tomcat Server
+  hosts: 
+    - webapp_prod
+  become: yes
+  become_method: sudo
+  tags: [webapp_prod]
+  vars: 
+    tomcat_version: 8.5.23
+
+    tomcat_permissions_production: True
+
+    tomcat_users:
+      - username: "tomcat-user"
+        password: "******"
+        roles: "tomcat,manager-gui,manager-script,manager-jmx,manager-status,admin,manager,manager-gui"
+      - username: "user0"
+        password: "******"
+        roles: "tomcat"
+  roles: 
+    - role: zaxos.tomcat-ansible-role

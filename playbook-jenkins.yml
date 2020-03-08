@@ -1,0 +1,46 @@
+---
+- name: Deploy Jenkins
+  hosts:
+    - Jenkins
+  gather_facts: true
+  become: yes
+  become_method: sudo
+  tags: [jenkins]
+
+  tasks:
+    - name: Update the software package repository
+      yum:
+        name: "*"
+        update_cache: yes
+    - name: Install dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - git
+        - texlive-latex
+        - wget
+        - deltarpm
+    - name: Download jenkins repo
+      command: wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    - name: Import Jenkins CI key
+      rpm_key:
+        key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+        state: present
+    - name: Install Jenkins
+      yum:
+        name: "jenkins"
+        state: present
+    - name: Allow port 8080
+      shell: iptables -I INPUT -p tcp --dport 8080 -m state --state NEW,ESTABLISHED -j ACCEPT
+    - name: Start the server
+      service:
+        name: jenkins
+        state: started
+        enabled: true
+    - name: Sleep for 30 seconds and continue with play
+      wait_for: timeout=30
+    - name: Get init password Jenkins
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result

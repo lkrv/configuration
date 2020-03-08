@@ -1,0 +1,10 @@
+---
+- name: Install maven
+  hosts:
+    - Jenkins
+  gather_facts: true
+  become: yes
+  become_method: sudo
+  tags: [jenkins]
+  roles:
+    - { role: tecris.maven, maven_major: 3, maven_version: 3.6.2, maven_home_parent_directory: /opt }

@@ -1,0 +1,14 @@
+---
+- name: Deploy Jenkins
+  hosts:
+    - Jenkins
+  gather_facts: true
+  become: yes
+  become_method: sudo
+  tags: [jenkins]
+
+  tasks:
+    - name: Get init password Jenkins
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result
