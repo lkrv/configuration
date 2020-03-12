@@ -1,8 +1,0 @@
----
-- hosts: 
-   - webapp_prod
-  become: yes
-  become_method: sudo
-  roles:
-   - role: robertdebock.java
-
