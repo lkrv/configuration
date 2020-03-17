@@ -1,14 +1,9 @@
-[test]
-linux1   ansible_host=52.14.77.120
+[app1]
+172.31.36.10 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/lin.pem
 
-[production]
-linux2   ansible_host=18.221.110.121
+[app2]
+172.31.36.11 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/lin.pem
 
-[test_prod:children]
-test
-production
-
-[test_prod:vars]
-ansible_user=ubuntu
-ansible_ssh_private_key_file=/home/ubuntu/.ssh/lin.pem
+[app3]
+172.31.36.12 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/.ssh/lin.pem
 
